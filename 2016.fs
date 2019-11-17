@@ -102,3 +102,34 @@ let deathsPerFamily list =
         | (d::ds), (f::fs) -> traverse (d::ds) fs @ [f]
 
     traverse list families
+    
+//----------------------------------------------------------------
+// Question 2.3
+//----------------------------------------------------------------
+// === 1 ===
+type QuadTree = 
+    |Empty
+    |Point of int * int
+    |Corner of QuadTree * QuadTree * QuadTree * QuadTree
+
+// === 2 ===
+let cornerA = Corner(Empty, Point(70, 20), Empty, Point(71,8))
+
+let cornerB = Corner(Empty,Empty, cornerA, Empty)
+
+let cornerC = Corner(Point(5,96), Empty, Empty, Point(20,70))
+
+let quadT = Corner(cornerC, Empty, Point(20,10), cornerB)
+
+// === 3 ===
+
+let findPointsWithDepth quadTree = 
+    let rec traverse quadTree depth =
+        match quadTree with
+        |Empty -> []
+        |Point(x,y) -> [((x, y), depth)]
+        |Corner(c1, c2, c3, c4) -> traverse c1 (depth + 1) @ traverse c2 (depth + 1) @ traverse c3 (depth + 1) @ traverse c4 (depth + 1)
+
+    traverse quadTree 0
+
+findPointsWithDepth quadT
