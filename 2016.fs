@@ -1,5 +1,33 @@
 // WHQW401 Exam 2016
 //=================================================================
+//1. Theory
+//=================================================================
+//----------------------------------------------------------------
+// Question 1.1.1
+//----------------------------------------------------------------
+// Prove using induction that count (xs @ ys) = count xs + count ys
+//
+// Step 1: Prove for xs = []
+// LHS: count ([] @ ys) = count ys (axiom 1)
+// RHS: count [] + coount ys = 0 + count ys = count ys (code line 3)
+// Thus LHS = RHS
+//
+// Step 2: Assume that the theorem holds for xs 
+// Thus count (xs @ ys) = count xs + count ys
+//
+// Step 3: Prove that theorem holds for x::xs
+// r.t.p. count (x::xs @ ys) = count x::xs + count ys
+// LHS: count (x::xs @ ys) = count x::(xs @ ys) (axiom 4)
+//      = 1 + count (xs @ ys) (code line 4)
+//      = 1 + count xs + count ys (induction assumption in step 2) 
+//
+// RHS: count x::xs + count ys = 1 + count xs + count ys (code line 4) 
+//
+// Thus LHS = RHS
+//
+// Thus theorem has been proved using induction
+//
+//=================================================================
 //2. Practical 
 //=================================================================
 //----------------------------------------------------------------
