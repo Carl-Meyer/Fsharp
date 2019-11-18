@@ -1,3 +1,4 @@
+
 // WHQW401 Exam 2015
 //=================================================================
 //1. Theory
@@ -98,3 +99,100 @@ let checkIfPermutations list1 list2 =
     checkHelper (sort list1) (sort list2) true
 
 checkIfPermutations [1;3;4;2] [2;3;4;2]
+
+
+
+//----------------------------------------------------------------
+// Question 2.2 Records
+//----------------------------------------------------------------
+//=== 1 ===
+type Book = {
+    title: string;
+    price: float;
+    pages: int;
+}
+
+//=== 2 ===
+
+let book1 = {
+    title = "Great Expectations";
+    price = 13.99;
+    pages = 271;
+}
+let book2 = {
+    title = "Walden";
+    price = 12.99;
+    pages = 659;
+}
+let book3 = {
+    title = "Thank you, Jeeves";
+    price = 64.39;
+    pages = 121;
+}
+let book4 = {
+    title = "Paradise Lost";
+    price = 7.35;
+    pages = 89;
+}
+let book5 = {
+    title = "Ninteen Eighty-Four";
+    price = 18.24;
+    pages = 365;
+}
+
+let books = [book1;book2;book3;book4;book5]
+
+//=== 3 ===
+let rec insertBook (book: Book) (books: Book list) buffer = 
+    match books with 
+    | [] -> buffer @ [book]
+    | b::bs when book.title.CompareTo(b.title) < 0 -> buffer @ book::b::bs
+    | b:: bs -> insertBook book bs (buffer @ [b])
+                    
+// === 4 ===
+
+let rec sortBooks books = 
+    let rec sortBooksHelper books sortedBooks = 
+        match books with
+        | [] -> sortedBooks
+        | book::bs -> sortBooksHelper bs (insertBook book sortedBooks [])
+
+    sortBooksHelper books []
+
+// === 5 ===
+let findCheapestBook books = 
+    let rec traverseBooks (books: Book list) (cheapestBook: Book) = 
+        match books with
+        |[] -> cheapestBook
+        |b::bs -> if b.price < cheapestBook.price then traverseBooks bs b
+                                                  else traverseBooks bs cheapestBook
+    let initalBook = {title=""; price= +infinity; pages=0;}
+    traverseBooks books initalBook
+
+findCheapestBook books       
+
+
+//----------------------------------------------------------------
+// Question 2.3 Discriminant Union
+//----------------------------------------------------------------
+// === 1 ===
+type Proposition = 
+    |Name of string
+    |Value of bool
+    |Not of Proposition
+    |And of Proposition * Proposition
+    |Or of Proposition * Proposition
+
+// === 2 ===
+
+let y = Name("y")
+let F = Value(false)
+let ForY = Or(F, y)
+let x = Name("x")
+let NotForY = Not(ForY)
+let xOrNotForY = Or(x, NotForY)
+let T = Value(true);
+let TandxOrNotFOrY = And(T, xOrNotForY)
+
+// === 3 ===
+
